@@ -1,6 +1,13 @@
+from operator import mod
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+
+
+class article_manager(models.Manager):
+
+    def all(self):
+        return self.filter(status=True)
 
 
 class article(models.Model):
