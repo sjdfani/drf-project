@@ -40,10 +40,10 @@ class ArticaleDelete(DestroyAPIView):
 class UserList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_class = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
 
 
 class UserDetail(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_class = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
