@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import article
 
-# Create your views here.
+
+class article_list(ListView):
+    template_name = "blog/article_list.html"
+
+    def get_queryset(self):
+        return article.objects.filter(status=True)
