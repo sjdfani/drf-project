@@ -1,17 +1,39 @@
 from blog.models import article
 from django.contrib.auth.models import User
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
 from .serializer import AppApiSerializer, UserSerializer
 
 
-class ArticleList(ListAPIView):
+class ArticaleCreate(CreateAPIView):
     queryset = article.objects.all()
     serializer_class = AppApiSerializer
 
 
-class ArticleDetail(RetrieveUpdateDestroyAPIView):
+class ArticaleList(ListAPIView):
     queryset = article.objects.all()
     serializer_class = AppApiSerializer
+
+
+class ArticaleDetail(RetrieveAPIView):
+    queryset = article.objects.all()
+    serializer_class = AppApiSerializer
+    # lockup_field = 'pk'  <default>
+    # lookup_field = 'slug'
+
+
+class ArticaleUpdate(UpdateAPIView):
+    queryset = article.objects.all()
+    serializer_class = AppApiSerializer
+    lockup_field = 'pk'
+
+
+class ArticaleDelete(DestroyAPIView):
+    queryset = article.objects.all()
+    serializer_class = AppApiSerializer
+    lockup_field = 'pk'
+
+
+# ============================================
 
 
 class UserList(ListAPIView):
