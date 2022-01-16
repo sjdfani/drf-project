@@ -1,6 +1,7 @@
 from blog.models import article
-from rest_framework.generics import ListAPIView, RetrieveAPIView
-from .serializer import AppApiSerializer
+from django.contrib.auth.models import User
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+from .serializer import AppApiSerializer, UserSerializer
 
 
 class ArticleList(ListAPIView):
@@ -8,6 +9,16 @@ class ArticleList(ListAPIView):
     serializer_class = AppApiSerializer
 
 
-class ArticleDetail(RetrieveAPIView):
+class ArticleDetail(RetrieveUpdateDestroyAPIView):
     queryset = article.objects.all()
     serializer_class = AppApiSerializer
+
+
+class UserList(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
