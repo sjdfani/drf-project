@@ -5,4 +5,7 @@ from blog.models import article
 class AppApiSerializer(serializers.ModelSerializer):
     class Meta:
         model = article
-        fields = "__all__"
+        # fields = ('title', 'slug', 'author', 'content', 'publish', 'status')
+        exclude = ('created', 'updated')
+        # fields = '__all__'
+        
