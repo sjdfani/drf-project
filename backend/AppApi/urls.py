@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ArticaleDetail, ArticaleList, ArticaleUpdate, ArticaleDelete, ArticaleCreate, UserList, UserDetail
+from .views import ArticaleDetail, ArticaleList, ArticaleUpdate, ArticaleDelete, ArticaleCreate, UserList, UserDetail, ArticaleAll
 
 app_name = 'AppApi'
 
@@ -12,6 +12,8 @@ urlpatterns = [
          ArticaleUpdate.as_view(), name='update'),
     path('articale-list/<int:pk>/delete',
          ArticaleDelete.as_view(), name="delete"),
+    path('articale-list/<int:pk>/all',
+         ArticaleAll.as_view(), name="all"),
     # =========================================================================
     path('user/', UserList.as_view(), name='list_user'),
     path('user/<int:pk>', UserDetail.as_view(), name='detail_user'),

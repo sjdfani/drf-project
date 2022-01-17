@@ -19,5 +19,7 @@ class article(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=False)
 
+    objects = article_manager()
+    
     def __str__(self):
         return self.title
