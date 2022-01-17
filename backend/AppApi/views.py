@@ -50,13 +50,12 @@ class ArticaleAll(RetrieveUpdateDestroyAPIView):
 class UserList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = (IsSuperuserOrStaffReadOnly,)
-    permission_classes = (isSuperUser,)
-
+    permission_classes = (IsSuperuserOrStaffReadOnly,)
+    # permission_classes = (isSuperUser,)
 
 
 class UserDetail(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = (IsSuperuserOrStaffReadOnly,)
-    permission_classes = (isSuperUser,)
+    permission_classes = (IsSuperuserOrStaffReadOnly,)
+    # permission_classes = (isSuperUser,)
