@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
 from .serializer import AppApiSerializer, UserSerializer
 from rest_framework.permissions import IsAdminUser
-from .permissions import isSuperUser, IsAuthorOrReadOnly, IsStaffOrReadOnly
+from .permissions import isSuperUser, IsAuthorOrReadOnly, IsStaffOrReadOnly, IsSuperuserOrStaffReadOnly
 
 
 class ArticaleCreate(CreateAPIView):
@@ -50,10 +50,13 @@ class ArticaleAll(RetrieveUpdateDestroyAPIView):
 class UserList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    # permission_classes = (IsSuperuserOrStaffReadOnly,)
     permission_classes = (isSuperUser,)
+
 
 
 class UserDetail(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    # permission_classes = (IsSuperuserOrStaffReadOnly,)
     permission_classes = (isSuperUser,)
