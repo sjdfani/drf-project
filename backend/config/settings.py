@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'blog.apps.BlogConfig',
     'AppApi.apps.AppapiConfig',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -140,5 +141,10 @@ REST_FRAMEWORK = {
         'AppApi.permissions.IsStaffOrReadOnly',
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         # 'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }

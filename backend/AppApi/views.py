@@ -4,6 +4,8 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 from .serializer import AppApiSerializer, UserSerializer
 from rest_framework.permissions import IsAdminUser
 from .permissions import isSuperUser, IsAuthorOrReadOnly, IsStaffOrReadOnly, IsSuperuserOrStaffReadOnly
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 class ArticaleCreate(CreateAPIView):
@@ -59,3 +61,13 @@ class UserDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsSuperuserOrStaffReadOnly,)
     # permission_classes = (isSuperUser,)
+
+
+# ============================================
+
+class RevokeToken(APIView):
+    permission_classes = (isSuperUser,)
+
+    def delete(self, request):
+        request.user.auth.delete()
+        return Response(status=204)
