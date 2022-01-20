@@ -55,7 +55,7 @@ class ArticleViewSet(ModelViewSet):
 
         author = self.request.query_params.get('author')
         if author is not None:
-            queryset = queryset.filter(author=author)
+            queryset = queryset.filter(author__username=author)
 
         status = self.request.query_params.get('status')
         if status is not None:
