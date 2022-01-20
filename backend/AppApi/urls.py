@@ -1,7 +1,7 @@
 from django.urls import path, include
 # from .views import ArticleDetail, ArticleList, ArticleUpdate, ArticleDelete, ArticleCreate, UserList, UserDetail, ArticleAll
 from rest_framework import routers
-from .views import UserViewSet, ArticleViewSet
+from .views import UserViewSet, ArticleViewSet, AuthorRetrieve
 
 app_name = 'AppApi'
 
@@ -29,4 +29,11 @@ router.register('users', UserViewSet, basename='users')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('authors/<int:pk>/', AuthorRetrieve.as_view(), name="authors"),
 ]
+
+
+# urlpatterns = [
+#     path('author/<int:pk>/', AuthorRetrieve.as_view(), name="author"),
+# ]
+# urlpatterns += router.urls
