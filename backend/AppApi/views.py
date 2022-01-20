@@ -6,68 +6,88 @@ from rest_framework.permissions import IsAdminUser
 from .permissions import isSuperUser, IsAuthorOrReadOnly, IsStaffOrReadOnly, IsSuperuserOrStaffReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
+# class ArticleCreate(CreateAPIView):
+#     queryset = article.objects.all()
+#     serializer_class = AppApiSerializer
+#     permission_classes = (isSuperUser, IsStaffOrReadOnly)
 
 
-class ArticaleCreate(CreateAPIView):
+# class ArticleList(ListAPIView):
+#     queryset = article.objects.all()
+#     serializer_class = AppApiSerializer
+
+
+# class ArticleDetail(RetrieveAPIView):
+#     queryset = article.objects.all()
+#     serializer_class = AppApiSerializer
+#     # lockup_field = 'pk'  <default>
+#     # lookup_field = 'slug'
+
+
+# class ArticleUpdate(UpdateAPIView):
+#     queryset = article.objects.all()
+#     serializer_class = AppApiSerializer
+#     lockup_field = 'pk'
+#     permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
+
+
+# class ArticleDelete(DestroyAPIView):
+#     queryset = article.objects.all()
+#     serializer_class = AppApiSerializer
+#     lockup_field = 'pk'
+#     permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
+
+
+# class ArticleAll(RetrieveUpdateDestroyAPIView):
+#     queryset = article.objects.all()
+#     serializer_class = AppApiSerializer
+#     lockup_field = 'pk'
+#     permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
+
+class ArticleViewSet(ModelViewSet):
     queryset = article.objects.all()
     serializer_class = AppApiSerializer
-    permission_classes = (isSuperUser, IsStaffOrReadOnly)
 
+    def get_queryset(self):
+        queryset = article.objects.all()
 
-class ArticaleList(ListAPIView):
-    queryset = article.objects.all()
-    serializer_class = AppApiSerializer
+        author = self.request.query_params.get('author')
+        if author is not None:
+            queryset = queryset.filter(author=author)
 
+        status = self.request.query_params.get('status')
+        if status is not None:
+            queryset = queryset.filter(status=status)
 
-class ArticaleDetail(RetrieveAPIView):
-    queryset = article.objects.all()
-    serializer_class = AppApiSerializer
-    # lockup_field = 'pk'  <default>
-    # lookup_field = 'slug'
+        return queryset
 
+    def get_permissions(self):
+        if self.action in ['list', 'create']:
+            permission_classes = [IsStaffOrReadOnly]
+        else:
+            permission_classes = [IsAuthorOrReadOnly, IsStaffOrReadOnly]
+        return [permission() for permission in permission_classes]
 
-class ArticaleUpdate(UpdateAPIView):
-    queryset = article.objects.all()
-    serializer_class = AppApiSerializer
-    lockup_field = 'pk'
-    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
-
-
-class ArticaleDelete(DestroyAPIView):
-    queryset = article.objects.all()
-    serializer_class = AppApiSerializer
-    lockup_field = 'pk'
-    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
-
-
-class ArticaleAll(RetrieveUpdateDestroyAPIView):
-    queryset = article.objects.all()
-    serializer_class = AppApiSerializer
-    lockup_field = 'pk'
-    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
 
 # ============================================
 
 
-class UserList(ListAPIView):
+# class UserList(ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = (IsSuperuserOrStaffReadOnly,)
+#     # permission_classes = (isSuperUser,)
+
+
+# class UserDetail(RetrieveUpdateDestroyAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = (IsSuperuserOrStaffReadOnly,)
+#     # permission_classes = (isSuperUser,)
+
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsSuperuserOrStaffReadOnly,)
-    # permission_classes = (isSuperUser,)
-
-
-class UserDetail(RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (IsSuperuserOrStaffReadOnly,)
-    # permission_classes = (isSuperUser,)
-
-
-# ============================================
-
-class RevokeToken(APIView):
     permission_classes = (isSuperUser,)
-
-    def delete(self, request):
-        request.user.auth.delete()
-        return Response(status=204)
